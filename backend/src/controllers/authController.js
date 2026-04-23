@@ -16,7 +16,7 @@ const register = async(req, res) => {
 		if(exists) return res.status(400).json({ message: "username or email already exists." });
 
 		const salt = await bcrypt.genSalt(10);
-		const hash = await bcrypt.hash(password);
+		const hash = await bcrypt.hash(password, salt);
 
 		const newUser = new User({
 			username,
@@ -42,14 +42,14 @@ const register = async(req, res) => {
 const login = async(req, res) => {
 	try{
 		const { email, password } = req.body;
-		
+
 		if(!email || !password) return res.status(400).json({ message: "Please fill in all fields." });
 
 		const user = await User.findOne({ email });
 		if(!user) return res.status(400).json({ message: "Invalid credentials." });
 
 		const isMatch = await bcrypt.compare(password, user.password);
-		if(isMatch) return res.status(400).json({ message: "Invalid credentials." });
+		if(!isMatch) return res.status(400).json({ message: "Invalid credentials." });
 
 		generateToken(user._id, res);
 
@@ -67,7 +67,7 @@ const login = async(req, res) => {
 const logout = async(req, res) => {
 	try{
 		res.cookie('token', "", { maxAge: 0 });
-		res.status(200).json({ message: "Logged out successfully" });	
+		res.status(200).json({ message: "Logged out successfully" });
 	} catch(error) {
 		console.log("Error logging out user: ", error);
 		res.status(500).json({ message: "Error logging out user." });

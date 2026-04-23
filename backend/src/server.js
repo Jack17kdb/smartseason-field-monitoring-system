@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import connectDB from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/authRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import fieldRoutes from './routes/fieldRoutes.js';
 import { logger, errorLogger } from './middleware/logger.js';
 
 dotenv.config();
@@ -35,6 +37,8 @@ app.use(logger);
 app.use(errorLogger);
 
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/fields', fieldRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server listening on port: ${PORT}`);

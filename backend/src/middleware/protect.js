@@ -6,7 +6,7 @@ const protect = async(req, res, next) => {
 		const token = req.cookies?.token;
 		if(!token) return res.status(403).json({ message: "Unauthorized - No token provided." });
 
-		const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
 		if(!decoded) return res.status(403).json({ message: "Unauthorized - Invalid token provided." });
 
 		const user = await User.findById(decoded.id).select("-password");
