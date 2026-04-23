@@ -4,6 +4,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './lib/db.js';
 import cookieParser from 'cookie-parser';
+import authRoutes from './routes/authRoutes.js';
 import { logger, errorLogger } from './middleware/logger.js';
 
 dotenv.config();
@@ -32,6 +33,8 @@ app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(logger);
 app.use(errorLogger);
+
+app.use('/api/auth', authRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server listening on port: ${PORT}`);
