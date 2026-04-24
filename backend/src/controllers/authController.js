@@ -31,7 +31,8 @@ const register = async(req, res) => {
 		res.status(201).json({
 			_id: newUser._id,
 			username: newUser.username,
-			email: newUser.email
+			email: newUser.email,
+			role: newUser.role
 		});
 	} catch(error) {
 		console.log("Error registering user: ", error);
@@ -56,7 +57,8 @@ const login = async(req, res) => {
 		res.status(200).json({
 			_id: user._id,
 			username: user.username,
-			email: user.email
+			email: user.email,
+			role: user.role
 		});
 	} catch(error) {
 		console.log("Error logging in user: ", error);

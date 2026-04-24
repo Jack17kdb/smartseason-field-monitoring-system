@@ -28,7 +28,7 @@ const createField = async(req, res) => {
 };
 
 const assignField = async(req, res) => {
-        try{
+	try{
 		const { id } = req.params;
 		const { username } = req.body;
 
@@ -49,7 +49,7 @@ const assignField = async(req, res) => {
 };
 
 const getAllFields = async(req, res) => {
-        try{
+	try{
 		const fields = await Field.find({}).populate('assignedTo', 'username email').sort({ createdAt: -1 });
 		res.status(200).json(fields);
 	} catch(error) {
@@ -59,7 +59,7 @@ const getAllFields = async(req, res) => {
 };
 
 const getDashboardStats = async(req, res) => {
-        try{
+	try{
 		const stats = await Field.aggregate([
 			{
 				$group: {
@@ -88,5 +88,14 @@ const getDashboardStats = async(req, res) => {
 	}
 };
 
+const getAgents = async(req, res) => {
+	try{
+		const agents = await User.find({ role: 'agent' }).select('username email').sort({ username: 1 });
+		res.status(200).json(agents);
+	} catch(error) {
+		console.log("Error fetching agents: ", error);
+		res.status(500).json({ message: "Error fetching agents" });
+	}
+};
 
-export default { createField, assignField, getAllFields, getDashboardStats }
+export default { createField, assignField, getAllFields, getDashboardStats, getAgents }

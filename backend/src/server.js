@@ -8,10 +8,14 @@ import authRoutes from './routes/authRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import fieldRoutes from './routes/fieldRoutes.js';
 import { logger, errorLogger } from './middleware/logger.js';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const app = express();
 
 app.use(cors({
@@ -20,7 +24,7 @@ app.use(cors({
 }));
 
 app.use(helmet({
-	contentSecurityPolicies: {
+	contentSecurityPolicy: {
 		directives: {
 			"default-src": ["'self'"],
 			"img-src": ["'self'", "data:"],
@@ -40,7 +44,16 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/fields', fieldRoutes);
 
+if(process.env.NODE_ENV === 'production'){
+	app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
+	app.get('*all', (req, res) => {
+		res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"));
+	})
+};
+
 app.listen(PORT, () => {
+	console.log("Serving from:", path.join(__dirname, "../../frontend/dist"));
 	console.log(`Server listening on port: ${PORT}`);
 	connectDB();
 });
