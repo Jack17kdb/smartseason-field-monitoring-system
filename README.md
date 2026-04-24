@@ -20,8 +20,8 @@ To test the role-based access control, use these accounts:
 | Role  | Email              | Password   | Access Level |
 |-------|--------------------|------------|--------------|
 | Admin | admin@smartseason.dev | adminpass  | Full oversight |
-| Agent | kamau@ssfms.dev     | agent123   | Assigned fields only |
-| Agent | wanjiru@ssfms.dev   | agent123   | Assigned fields only |
+| Agent | kamau@smartseason.dev     | agent123   | Assigned fields only |
+| Agent | wanjiru@smartseason.dev   | agent123   | Assigned fields only |
 
 ---
 
