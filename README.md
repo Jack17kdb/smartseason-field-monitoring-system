@@ -48,7 +48,7 @@
 
 1. **Clone & Install**:
    ```bash
-   git clone <repo-url>
-   cd <repo>
+   git clone https://github.com/Jack17kdb/smartseason-field-monitoring-system.git
+   cd smartseason-field-monitoring-system
    npm run build
    npm run start
